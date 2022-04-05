@@ -1,5 +1,12 @@
 # ShitTools Documentation
 
+## Install ShitTools Here
+[ShitToolsInstaller.zip](https://github.com/DevelopingBread/ShitTools/files/8422068/ShitToolsInstaller.zip)
+
+Unzip it and run ShitToolsInstall.cmd
+
+**MAKE SURE YOU HAVE 7zip INSTALLED**
+
 ##  eval
 ```lua
 <void?> eval(<string> code)
