@@ -1,4 +1,4 @@
-require("Files\\Functions")
+require("Files\\Modules\\Functions")
 
 --// Startup Info
 if not FileExists("Files\\Data\\ShitToolsData\\StartUp.txt") or FileExists("Files\\Data\\ShitToolsData\\AlwaysShowMenu.txt") then

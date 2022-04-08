@@ -7,7 +7,7 @@ local Metadata = {
     Color = "Magenta", -- Color of the text
 
     Run = function ()
-        require("Files\\Functions")
+        require("Files\\Modules\\Functions")
 
         local settings = {
             -- {

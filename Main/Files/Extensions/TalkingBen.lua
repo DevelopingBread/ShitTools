@@ -7,7 +7,7 @@ local Metadata = {
     Color = "White", -- Color of the text
 
     Run = function ()
-        require("Files\\Functions")
+        require("Files\\Modules\\Functions")
 
         eval("cls")
 

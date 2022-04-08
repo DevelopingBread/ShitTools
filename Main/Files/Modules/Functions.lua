@@ -157,3 +157,14 @@ function GetTableKeysAndValues(table)
     end
     return keysAndValues
 end
+
+function OpenFileDialog(title, filter)
+    local file = io.open(io.popen("explorer /select," .. title):read("*all"), "r")
+    if file then
+        file:close()
+    end
+end
+
+function GetModule()
+    
+end

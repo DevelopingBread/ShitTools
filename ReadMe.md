@@ -114,3 +114,9 @@ Returns the values of a table.
 <table> GetTableKeysAndValues(<table> table)
 ```
 Returns the keys and values of a table.
+
+##  OpenFileDialog
+```lua
+<string> OpenFileDialog(<string> title, <string> filter)
+```
+Opens a file dialog.
