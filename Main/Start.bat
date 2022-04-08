@@ -11,3 +11,5 @@ if not exist "C:\Program Files\Lua\lua.exe" if not exist "C:\Program Files (x86)
 
 chcp 65001
 lua "%~dp0\Main.lua"
+
+pause

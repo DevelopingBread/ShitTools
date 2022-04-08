@@ -111,6 +111,7 @@ function DeleteFile(file)
 end
 
 function ReadFile(file)
+    if not FileExists(file) then return nil end
     local f = io.open(file, "rb")
     local content = f:read("*all")
     f:close()
@@ -229,8 +230,8 @@ function OpenFileDialog(title, startLocation)
 end
 
 function GetModule(Module)
-    local ModulePath = "Files\\Modules\\" .. Module .. ".lua"
-    if FileExists(ModulePath) then
+    local ModulePath = "Files\\Modules\\" .. Module
+    if FileExists(ModulePath .. ".lua") then
         return require(ModulePath)
     else
         error("Module " .. Module .. " does not exist")
