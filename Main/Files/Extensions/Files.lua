@@ -83,6 +83,7 @@ local Metadata = {
             file:write(text)
             file:close()
 
+            eval("cls")
             print(ColorText("yellow", "Created " .. i .. " / " .. times .. " " .. math.floor(i/times*100) .. "%"))
         end
 
