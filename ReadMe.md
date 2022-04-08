@@ -121,6 +121,12 @@ Returns the keys and values of a table.
 ```
 Returns true if the path is a folder. (Read below for the warning)
 
+## GetWorkingDirectory
+```lua
+<string> GetWorkingDirectory()
+```
+Returns the working directory.
+
 ##  OpenFileDialog
 ```lua
 <string> OpenFileDialog(<string> title, <string> startLocation)
@@ -132,3 +138,9 @@ Opens a file dialog. (Warning, this does test each file by adding a text file an
 <string> GetModule(<string> Module)
 ```
 Returns the module.
+
+## PressEnterToContiue
+```lua
+<void> PressEnterToContiue()
+```
+Waits until the user presses enter.

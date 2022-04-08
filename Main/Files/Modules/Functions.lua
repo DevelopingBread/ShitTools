@@ -166,16 +166,24 @@ function IsFolder(dir)
         CreateTextFile(dir .. "\\test.txt", "")
     end)
     DeleteFile(dir .. "\\test.txt")
-    return folder
+    return folder, tostring(err)
+end
+
+function GetWorkingDirectory()
+    return os.getenv("PWD") or io.popen("cd"):read()
 end
 
 function OpenFileDialog(title, startLocation)
+    eval("cls")
+    if not IsFolder(startLocation) then
+        print(ColorText("red", "Start location does not exist:" .. startLocation))
+        startLocation = GetWorkingDirectory()
+    end
     while true do
-        eval("cls")
-
         local files = GetFiles(startLocation)
         for i, file in pairs(files) do
-            if IsFolder(startLocation .. "\\" .. file) then
+            local isFolder, err = IsFolder(startLocation .. "\\" .. file)
+            if isFolder then
                 print(ColorText("cyan", i, ": ", file, "(Folder)"))
             else
                 print(ColorText("green", i, ": ", file, "(File)"))
@@ -185,26 +193,38 @@ function OpenFileDialog(title, startLocation)
         print("0: Back")
         print("leave: Exit")
         print("pick: Uses this folder")
+        print("refresh: Refreshes the list")
         print("")
         print(title)
         print("")
         local input = io.read()
         if input == "0" then
-            startLocation = startLocation:match("(.*)\\")
+            -- If the directory is at C:\ then we want to go back to the root
+            if startLocation:match("(.*)\\") ~= "C:" then
+                startLocation = startLocation:match("(.*)\\")
+            end
+            --startLocation = startLocation:match("(.*)\\")
         elseif input == "leave" then
+            eval("cls")
             return nil
         elseif input == "pick" then
+            eval("cls")
             return startLocation
+        elseif input == "refresh" then
+            eval("cls")
         else
             local file = files[tonumber(input)]
             if file then
                 if IsFolder(startLocation .. "\\" .. file) then
                     startLocation = startLocation .. "\\" .. file
                 else
+                    eval("cls")
                     return startLocation .. "\\" .. file
                 end
             end
         end
+
+        eval("cls")
     end
 end
 
@@ -215,4 +235,8 @@ function GetModule(Module)
     else
         error("Module " .. Module .. " does not exist")
     end
+end
+
+function PressEnterToContiue()
+    io.read()
 end
