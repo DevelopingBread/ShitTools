@@ -158,13 +158,61 @@ function GetTableKeysAndValues(table)
     return keysAndValues
 end
 
-function OpenFileDialog(title, filter)
-    local file = io.open(io.popen("explorer /select," .. title):read("*all"), "r")
-    if file then
-        file:close()
+function IsFolder(dir)
+    -- Test adding a file to the directory
+    -- if passes its a folder
+    -- if it fails its a file
+    local folder, err = pcall(function()
+        CreateTextFile(dir .. "\\test.txt", "")
+    end)
+    DeleteFile(dir .. "\\test.txt")
+    return folder
+end
+
+function OpenFileDialog(title, startLocation)
+    while true do
+        eval("cls")
+
+        local files = GetFiles(startLocation)
+        for i, file in pairs(files) do
+            if IsFolder(startLocation .. "\\" .. file) then
+                print(ColorText("cyan", i, ": ", file, "(Folder)"))
+            else
+                print(ColorText("green", i, ": ", file, "(File)"))
+            end
+        end
+        print(ColorText("yellow", "\nCurrent location: " .. startLocation))
+        print("0: Back")
+        print("leave: Exit")
+        print("pick: Uses this folder")
+        print("")
+        print(title)
+        print("")
+        local input = io.read()
+        if input == "0" then
+            startLocation = startLocation:match("(.*)\\")
+        elseif input == "leave" then
+            return nil
+        elseif input == "pick" then
+            return startLocation
+        else
+            local file = files[tonumber(input)]
+            if file then
+                if IsFolder(startLocation .. "\\" .. file) then
+                    startLocation = startLocation .. "\\" .. file
+                else
+                    return startLocation .. "\\" .. file
+                end
+            end
+        end
     end
 end
 
-function GetModule()
-    
+function GetModule(Module)
+    local ModulePath = "Files\\Modules\\" .. Module .. ".lua"
+    if FileExists(ModulePath) then
+        return require(ModulePath)
+    else
+        error("Module " .. Module .. " does not exist")
+    end
 end

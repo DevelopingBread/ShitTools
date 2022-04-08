@@ -115,8 +115,20 @@ Returns the values of a table.
 ```
 Returns the keys and values of a table.
 
+## IsFolder
+```lua
+<boolean> IsFolder(<string> path)
+```
+Returns true if the path is a folder. (Read below for the warning)
+
 ##  OpenFileDialog
 ```lua
-<string> OpenFileDialog(<string> title, <string> filter)
+<string> OpenFileDialog(<string> title, <string> startLocation)
 ```
-Opens a file dialog.
+Opens a file dialog. (Warning, this does test each file by adding a text file and removing it {Uses the function called IsFolder}. 1 it can break your computer or a file in the folder. Be careful)
+
+##  GetModule
+```lua
+<string> GetModule(<string> Module)
+```
+Returns the module.
