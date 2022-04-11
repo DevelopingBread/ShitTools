@@ -1,8 +1,8 @@
 local Metadata = {
     Title = "Text File Flooder", -- Title
-    Author = "Me", -- Author
+    Author = "Expired Bread#8976", -- Author
     Version = "1.0.0", -- This is the version of the script
-    Description = "ahaha", -- Description
+    Description = "Flood your computer with files!!", -- Description
 
     Color = "red", -- Color of the text
 
@@ -11,7 +11,7 @@ local Metadata = {
         eval("cls")
 
         -- Open a file dialog
-        print(ColorText("green", "Select a file to flood"))
+        print(ColorText("green", "Select a folder to flood"))
         local dir = GetWorkingDirectory()
         local file = OpenFileDialog("Select a folder to flood", dir .. "\\Files\\Data")
         if not file or not IsFolder(file) then
@@ -78,12 +78,15 @@ local Metadata = {
 
         -- Flood the file
         for i = 1, times do
-            local filePath = file .. "\\" .. name .. " " .. i .. "." .. extension
-            local file = io.open(filePath, "w")
-            file:write(text)
-            file:close()
+            coroutine.wrap(function()
+                local filePath = file .. "\\" .. name .. " " .. i .. "." .. extension
+                local file = io.open(filePath, "w")
+                file:write(text)
+                file:close()
 
-            print(ColorText("yellow", "Created " .. i .. " / " .. times .. " " .. math.floor(i/times*100) .. "%"))
+                --print(ColorText("green", "\nFree space: " .. GetFreeSpace("C:") .. " bytes"))
+                print(ColorText("yellow", "Created " .. i .. " / " .. times .. " " .. math.floor(i/times*100) .. "%"))
+            end)()
         end
 
         -- Tell the user it's done

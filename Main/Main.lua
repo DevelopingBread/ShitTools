@@ -25,6 +25,12 @@ else
     eval("title " .. ReadFile("Files\\Data\\ShitToolsData\\CMDTitle.txt"))
 end 
 
+local times = {}
+for i = 1, 10 do
+    table.insert(times, DeleteSpeedTest())
+end
+CreateTextFile("Files\\Data\\ShitToolsData\\SpeedTest.txt", GetAvg(times))
+
 function ShowFiles()
     eval('cls')
 

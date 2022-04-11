@@ -144,3 +144,15 @@ Returns the module.
 <void> PressEnterToContiue()
 ```
 Waits until the user presses enter.
+
+## DeleteSpeedTest
+```lua
+<void> DeleteSpeedTest()
+```
+Test how long just to delete a file.
+
+## GetAvg
+```lua
+<number> GetAvg(<table> table)
+```
+Returns the average of a table.

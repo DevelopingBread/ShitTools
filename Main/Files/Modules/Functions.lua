@@ -64,7 +64,10 @@ function GetFiles(dir)
 end
 
 function CreateTextFile(dir, text)
-    if FileExists(dir) then return end
+    if FileExists(dir) then 
+        -- remove it
+        os.remove(dir)
+    end
     local f = io.open(dir, "w")
     f:write(text)
     f:close()
@@ -182,12 +185,31 @@ function OpenFileDialog(title, startLocation)
     end
     while true do
         local files = GetFiles(startLocation)
-        for i, file in pairs(files) do
-            local isFolder, err = IsFolder(startLocation .. "\\" .. file)
-            if isFolder then
-                print(ColorText("cyan", i, ": ", file, "(Folder)"))
+        if not (#files > 10000) then
+            for i, file in pairs(files) do
+                local isFolder, err = IsFolder(startLocation .. "\\" .. file)
+                if isFolder then
+                    print(ColorText("cyan", i, ": ", file, "(Folder)"))
+                else
+                    print(ColorText("green", i, ": ", file, "(File)"))
+                end
+            end
+        else
+            print(ColorText("red", "Too many files to display"))
+            print(ColorText("red", "Are you sure you want to display them?"))
+            print(ColorText("red", "Y/N"))
+            local input = io.read()
+            if input:lower() == "y" then
+                for i, file in pairs(files) do
+                    local isFolder, err = IsFolder(startLocation .. "\\" .. file)
+                    if isFolder then
+                        print(ColorText("cyan", i, ": ", file, "(Folder)"))
+                    else
+                        print(ColorText("green", i, ": ", file, "(File)"))
+                    end
+                end
             else
-                print(ColorText("green", i, ": ", file, "(File)"))
+                -- do nothing
             end
         end
         print(ColorText("yellow", "\nCurrent location: " .. startLocation))
@@ -240,4 +262,67 @@ end
 
 function PressEnterToContiue()
     io.read()
+end
+
+function GetFreeSpace(drive)
+    -- Shows how much free space the drive has
+    local free_space = 0
+    local drive_letter = drive:sub(1, 1)
+    local drive_info = io.popen("wmic logicaldisk where driveletter='" .. drive_letter .. "' get freespace"):read()
+    if drive_info then
+        free_space = tonumber(drive_info:match("(%d+)"))
+    end
+    return free_space
+end
+
+function LocalAppdata()
+    return os.getenv("LOCALAPPDATA")
+end
+
+function Dropdown(title, options)
+    while true do
+        eval("cls")
+        local pos = 0
+        for i, _ in pairs(options) do
+            pos = pos + 1
+            print(pos, ": ", i)
+        end
+        print("")
+        print(title)
+        print("")
+        print("0: Back")
+        print("")
+        local input = io.read()
+        if input == "0" then
+            return nil
+        else
+            local option = options[tonumber(input)]
+            if option then
+                return option
+            end
+        end
+    end
+end
+
+function DeleteSpeedTest()
+    local la = LocalAppdata()
+    local file = la .. "\\test.txt"
+    CreateTextFile(file, "")
+    print(FileExists(file))
+    local start = os.clock()
+    local _, err = DeleteFile(file)
+    local endTime = os.clock()
+    local time = endTime - start
+    CreateTextFile("Files\\Data\\ShitToolsData\\SpeedTest.txt", tostring(time))
+    print(ColorText("red", "error: " .. tostring(err)))
+
+    return time
+end
+
+function GetAvg(tbl)
+    local sum = 0
+    for i, v in pairs(tbl) do
+        sum = sum + v
+    end
+    return sum / #tbl
 end
